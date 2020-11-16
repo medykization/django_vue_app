@@ -25,7 +25,7 @@ SECRET_KEY = 'il1$gkt8sv#i5=9t#(2-t++0f%f37)03g&idkj)d7$g5jd!##h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [localhost]
+ALLOWED_HOSTS = ['127.0.0.1']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'auth',
+    'user_auth',
 ]
 
 MIDDLEWARE = [
