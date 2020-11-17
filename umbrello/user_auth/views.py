@@ -9,8 +9,11 @@ from user_auth.serializers import UserSerializer
 
 # Create your views here.
 @api_view(['POST'])
-def user_auth_login(request):
+def user_auth_register(request):
     serializer = UserSerializer(data = request.data)
+
     if serializer.is_valid(raise_exception=True):
+        serializer.create(serializer.validated_data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
