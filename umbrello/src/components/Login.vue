@@ -40,13 +40,13 @@ export default {
     return {
       user: {
         usernameInput: '',
-        passwordInput: ''
-      }, 
+        passwordInput: '',
+      },
     };
   },
   methods: {
     logme() {
-      this.queryResponse = AuthService.login( this.user.usernameInput, this.user.passwordInput)
+      this.queryResponse = AuthService.login(this.user.usernameInput, this.user.passwordInput)
         .then((response) => {
           console.log(response);
         })
