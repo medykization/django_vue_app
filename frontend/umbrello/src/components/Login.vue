@@ -55,6 +55,7 @@ export default {
       })
         .then((response) => {
           console.log(response);
+          this.$router.push({ path: 'boards' });
         }, (error) => {
           console.log(error);
         });
