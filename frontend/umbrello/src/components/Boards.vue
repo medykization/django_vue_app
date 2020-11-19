@@ -1,6 +1,6 @@
 <template>
   <div class="boards">
-    <p> Boards </p>
+    <p> Active User Token: {{this.$activeUser.token}} </p>
   </div>
 </template>
 

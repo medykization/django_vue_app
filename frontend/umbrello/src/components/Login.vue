@@ -54,7 +54,8 @@ export default {
         },
       })
         .then((response) => {
-          console.log(response);
+          console.log('Token: ', response.data.token); //   Display token for debugging
+          this.$activeUser.token = response.data.token; //  Set active user token
           this.$router.push({ path: 'boards' });
         }, (error) => {
           console.log(error);
