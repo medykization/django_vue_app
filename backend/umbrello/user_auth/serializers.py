@@ -24,11 +24,9 @@ class UserSerializer(ModelSerializer):
             ]
 
     def create(self, validated_data):
-        print(validated_data)
         user = User(email=validated_data['email'], username=validated_data['username'])
         user.set_password(validated_data['password'])
         user.save()
-        token = Token.objects.create(user = user)
 
     def validate(self, data):
         if not User.objects.filter(username = data.get("username")).filter(email = data.get("email")).exists():

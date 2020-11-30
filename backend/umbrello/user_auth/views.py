@@ -20,12 +20,3 @@ def user_auth_register(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class user_auth_login(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        serializer = self.get_serializer(data=data['body'])
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
