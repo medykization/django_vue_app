@@ -1,12 +1,10 @@
 from django.urls import path
-from tables.views import (
-    board_create,
-    #boards_all,
-)
+from tables.views import BoardsView  # , boards_all
 
-app_name="tables"
+
+app_name = "tables"
 
 urlpatterns = [
-    path('add', board_create),
-    #path('all', boards_all),
+    path('all', BoardsView.as_view()),
+    #path('add', boards_create),
 ]

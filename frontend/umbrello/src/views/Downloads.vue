@@ -2,9 +2,12 @@
   <div class="downloads">
     <NavBar></NavBar>
     <div class="bod">
-      <h1>Welcome to Download Hub</h1>
-      <h2>Versions available:</h2>
-      <h2 v-for="mod in APIData" :key="mod.id">{{mod.name}}</h2>
+      <h2>Boards:</h2>
+      <h2 v-for="mod in APIData" :key="mod.id">
+        <div>
+          {{mod.name}}
+        </div>
+      </h2>
       <h2></h2>
     </div>
   </div>
