@@ -10,7 +10,7 @@ from user_auth.views import(
 app_name="user_auth"
 
 urlpatterns = [
-    path('login', TokenObtainPairView.as_view()),
-    path('token/refresh', TokenRefreshView.as_view()),
+    path('login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('register', user_auth_register),
 ]
