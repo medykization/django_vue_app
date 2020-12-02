@@ -1,5 +1,5 @@
 <template>
-  <div class="downloads">
+  <div class="boards">
     <div class="bod">
       <h2>Boards:</h2>
       <h2 v-for="mod in APIData" :key="mod.id">
@@ -21,7 +21,7 @@
   import { getAPI } from '../api/axios-base'
   import { mapState } from 'vuex'
   export default {
-    name: 'Downloads',
+    name: 'Boards',
     onIdle () { // dispatch logoutUser if no activity detected
       this.$store.dispatch('logoutUser')
         .then(response => {

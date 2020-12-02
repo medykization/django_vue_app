@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import login from './views/SignIn'
 import register from './views/SignUp'
-import downloads from './views/Downloads'
+import boards from './views/Boards'
 import logout from './views/Logout'
 import about from './views/About'
 
@@ -35,9 +35,9 @@ export default new Router({
       }
     },
     {
-      path: '/downloads',
-      name: 'downloads',
-      component: downloads,
+      path: '/boards',
+      name: 'boards',
+      component: boards,
       meta: {
         requiresAuth: true
       }

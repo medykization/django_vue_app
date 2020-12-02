@@ -2,11 +2,11 @@
   <v-container fluid fill-height class="bg">
   <v-container fluid>
     <v-layout row align-center>
-      <v-flex xs12 sm6 offset-sm3 class="text-xs-center pt-16">
+      <v-flex xs12 sm6 offset-sm3 class="text-xs-center pt-16 white--text">
         <h1>Welcome to Umbrello</h1>
       </v-flex>
       <v-flex xs12 sm6 offset-sm3 mt-3>
-        <blockquote class="blockquote text-xs-center">
+        <blockquote class="blockquote text-xs-center white--text">
         The Umbrello app helps you collaborate<br>
         and get more done.
         </blockquote>
@@ -26,9 +26,7 @@ export default {
 </script>
 <style scoped>
   .bg {
-    /*
-    background: url('https://i.imgur.com/7WuLRWF.jpg') no-repeat center center;
-    */
-    background-size: cover;
+    background: url('https://i.imgur.com/C8BYhgw.jpeg') no-repeat center center;
+    background-size: fill;
   }
 </style>
