@@ -1,6 +1,5 @@
 <template>
   <div class="downloads">
-    <NavBar></NavBar>
     <div class="bod">
       <h2>Boards:</h2>
       <h2 v-for="mod in APIData" :key="mod.id">
@@ -19,7 +18,6 @@
 </template>
 
 <script>
-  import NavBar from '../components/Navbar'
   import { getAPI } from '../api/axios-base'
   import { mapState } from 'vuex'
   export default {
@@ -29,9 +27,6 @@
         .then(response => {
           this.$router.push('/login')
         })
-    },
-    components: {
-      NavBar
     },
     computed: mapState(['APIData']), // get APIData from store.state.
     created () {

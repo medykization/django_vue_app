@@ -1,52 +1,34 @@
 <template>
-  <div class="home">
-    <NavBar></NavBar>
-    <div class="bod">
-      <h1>Welcome to Hardcore Mods</h1>
-      <h2>Wo are we?</h2>
-      <h3>We specialise in building free game mods for ETS2 and ATS to make your gaming experience fun!</h3>
-      <h2>What mods have we built so far?</h2>
-      <h3>Wanna help us in any way?. We would love to have extra additions to our team. Send us a message and we will get back to you soon</h3>
-    </div>
-  </div>
+  <v-container fluid fill-height class="bg">
+  <v-container fluid>
+    <v-layout row align-center>
+      <v-flex xs12 sm6 offset-sm3 class="text-xs-center pt-16">
+        <h1>Welcome to Umbrello</h1>
+      </v-flex>
+      <v-flex xs12 sm6 offset-sm3 mt-3>
+        <blockquote class="blockquote text-xs-center">
+        The Umbrello app helps you collaborate<br>
+        and get more done.
+        </blockquote>
+      </v-flex>
+      <v-flex xs12 sm6 offset-sm3 class="text-xs-center" my-5>
+        <v-btn color="primary" to="/login">Sign In</v-btn>
+        <v-btn to="/register">Sign Up</v-btn>
+      </v-flex>
+    </v-layout>
+  </v-container>
+  </v-container>
 </template>
-
 <script>
-  import NavBar from '../components/Navbar'
-  export default {
-    name: 'Home',
-    components: {
-      NavBar
-    }
-  }
+export default {
+  // name: "Home"
+}
 </script>
-
 <style scoped>
-  @import url(https://fonts.googleapis.com/css?family=Quicksand) ;
-  .home {
-    margin: 0;
-    padding: 0;
+  .bg {
+    /*
+    background: url('https://i.imgur.com/7WuLRWF.jpg') no-repeat center center;
+    */
+    background-size: cover;
   }
-  .bod {
-    background-color: #606366;
-    text-align: center;
-    color: white;
-    font-family: 'Quicksand', sans-serif;
-    padding: 0;
-    margin: 78px 0;
-  }
-  .bod h1 {
-    background-color: #292b2d;
-    padding: 40px 0 40px 0;
-    font-size: 32px;
-    margin: 0;
-  }
-  .bod h2 {
-    margin: 0;
-    padding: 10px 0 10px 0;
-  }
-  .bod h3 {
-    margin: 20px;
-  }
-
 </style>

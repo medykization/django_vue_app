@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import login from './views/Login'
-import register from './views/Register'
+import login from './views/SignIn'
+import register from './views/SignUp'
 import downloads from './views/Downloads'
 import logout from './views/Logout'
+import about from './views/About'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: about
     }
   ]
 })

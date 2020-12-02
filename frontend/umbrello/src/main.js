@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import IdleVue from 'idle-vue'
+import vuetify from './plugins/vuetify'
 
 const eventsHub = new Vue()
 
@@ -26,7 +27,7 @@ router.beforeEach((to, from, next) => {
     // then check if the user is logged in; if true continue to home page else continue routing to the destination path
     // this comes to play if the user is logged in and tries to access the login/register page
     if (store.getters.loggedIn) {
-      next({ name: 'home' })
+      next({ name: 'downloads' })
     } else {
       next()
     }
@@ -38,5 +39,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
