@@ -37,3 +37,23 @@ class BoardsAdd(GenericAPIView):
             serializer.create(serializer.validated_data)
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BoardsUpdate(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        user = request.user
+        body = request.data
+        old_name = body['old_name']
+        new_name = body['new_name']
+        if old_name == new_name:
+            return Response("You enter the same name")
+        try:
+            board = Board.objects.get(owner_id = user, name = old_name)
+            board.name = new_name
+            board.save()
+            return Response("Board name updated")
+        except Board.DoesNotExist:
+            return Response("Board doesn't exist")
+        
