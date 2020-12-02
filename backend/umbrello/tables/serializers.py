@@ -9,18 +9,18 @@ class BoardSerializer(ModelSerializer):
         fields = ['name', ]
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-    '''
     def create(self, validated_data):
         board = Board(
             owner_id=validated_data['user'], name=validated_data['name'])
         board.save()
 
     def validate(self, data):
+
         user = self.user
         if not Board.objects.filter(owner_id=user).filter(name=data.get("name")).exists():
             data['user'] = user
             return data
         raise ValidationError('board already exist')
-    '''

@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from .serializers import RefreshTokenSerializer, UserSerializer
 import json
 
+
 class LogoutView(GenericAPIView):
     serializer_class = RefreshTokenSerializer
     permission_classes = (IsAuthenticated, )
@@ -19,6 +20,7 @@ class LogoutView(GenericAPIView):
         sz.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class RegisterView(GenericAPIView):
     serializer_class = UserSerializer
     permission_classes = ()
@@ -28,4 +30,4 @@ class RegisterView(GenericAPIView):
         if sz.is_valid(raise_exception=True):
             sz.create(sz.validated_data)
             return Response("Account created", status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(sz.errors, status=status.HTTP_400_BAD_REQUEST)
