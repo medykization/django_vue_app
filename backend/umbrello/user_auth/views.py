@@ -1,16 +1,27 @@
 from django.shortcuts import render
 
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.authtoken.views import ObtainAuthToken 
-from rest_framework.authtoken.models import Token
+from rest_framework.generics import GenericAPIView
 
 from django.contrib.auth.models import User
 from user_auth.serializers import UserSerializer
+from .serializers import RefreshTokenSerializer
 import json
 
-# Create your views here.
+class LogoutView(GenericAPIView):
+    serializer_class = RefreshTokenSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, *args):
+        sz = self.get_serializer(data=request.data)
+        sz.is_valid(raise_exception=True)
+        sz.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 @api_view(['POST'])
 def user_auth_register(request):
     data = json.loads(request.body)
