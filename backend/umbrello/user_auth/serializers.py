@@ -11,31 +11,22 @@ from rest_framework.serializers import (
 )
 
 ##TODO update this class
-class UserSerializer(ModelSerializer):
-    username = CharField()
-    email = EmailField()
-    password = CharField(
-        write_only=True,
-        required=True,
-    )
-    
-    class Meta:
-        model = User
-        fields = [
-            'username',
-            'email',
-            'password',
-            ]
-
-    def create(self, validated_data):
-        user = User(email=validated_data['email'], username=validated_data['username'])
-        user.set_password(validated_data['password'])
-        user.save()
+class UserSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    confirmed_password = serializers.CharField(write_only=True)
 
     def validate(self, data):
+        if data['password'] != data['confirmed_password']:
+            raise serializers.ValidationError("passwords not match")
         if not User.objects.filter(username = data.get("username")).filter(email = data.get("email")).exists():
             return data
         raise ValidationError('user already exist')
+
+    def create(self, validated_data):
+        user = User(email = validated_data['email'],username = validated_data['username'],password = validated_data['password'])
+        user.save()
 
 class RefreshTokenSerializer(serializers.Serializer):
     refresh = serializers.CharField()

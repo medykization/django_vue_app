@@ -3,12 +3,10 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 
 from django.contrib.auth.models import User
-from user_auth.serializers import UserSerializer
-from .serializers import RefreshTokenSerializer
+from .serializers import RefreshTokenSerializer, UserSerializer
 import json
 
 class LogoutView(GenericAPIView):
@@ -21,13 +19,13 @@ class LogoutView(GenericAPIView):
         sz.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class RegisterView(GenericAPIView):
+    serializer_class = UserSerializer
+    permission_classes = ()
 
-@api_view(['POST'])
-def user_auth_register(request):
-    data = json.loads(request.body)
-    serializer = UserSerializer(data = data['body'])
-    if serializer.is_valid(raise_exception=True):
-        serializer.create(serializer.validated_data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args):
+        sz = self.get_serializer(data=request.data)
+        if sz.is_valid(raise_exception=True):
+            sz.create(sz.validated_data)
+            return Response("Account created", status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
