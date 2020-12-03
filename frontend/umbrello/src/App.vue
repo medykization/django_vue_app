@@ -12,7 +12,7 @@
         <v-btn v-if="accessToken==null" to="/register">
           Sign Up
         </v-btn>
-        <v-btn v-if="accessToken!=null" to="/downloads">
+        <v-btn v-if="accessToken!=null" to="/boards">
           Boards
         </v-btn>
         <v-btn v-if="accessToken!=null" to="/logout">

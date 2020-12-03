@@ -37,6 +37,7 @@ export default new Router({
     {
       path: '/boards',
       name: 'boards',
+      redirect: '/login',
       component: boards,
       meta: {
         requiresAuth: true
