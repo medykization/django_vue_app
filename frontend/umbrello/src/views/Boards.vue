@@ -15,7 +15,7 @@
           min-height="140"
           class="ma-5"
           @contextmenu="showBoardMenu">
-            <v-container class="blue lighten-4"></v-container>
+            <v-container class="blue lighten-3"></v-container>
             <v-card-title>{{mod.name}}</v-card-title>
             <v-card-subtitle>SubTitle</v-card-subtitle>
             <v-card-text>Text Text Text Text Text</v-card-text>
@@ -39,12 +39,14 @@
           elevation="5"
           min-height="140"
           class="ma-5">
-            <v-container class="blue lighten-4"></v-container>
-            <form @submit.prevent="addBoard">
-              <label for="user">Name of board</label>
-              <input type="text" name="Name" id="Name" v-model="name">
-              <button type="submit">Add</button>
-            </form>
+            <v-container class="blue lighten-5"></v-container>
+            <v-card-title>New Board</v-card-title>
+            <v-card-subtitle>
+                <input type="text" name="Name" id="Name" v-model="name">
+            </v-card-subtitle>
+            <v-card-actions>
+              <v-btn flat color="green lighten-1" @click="addBoard">Add</v-btn>
+            </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
@@ -98,6 +100,7 @@
         })
         .then(response => {
             console.log('GetAPI successfully added the board')
+            window.location.reload()
             // this.$store.state.APIData = response.data // store the response data in store
           })
           .catch(err => { // refresh token expired or some other error status
