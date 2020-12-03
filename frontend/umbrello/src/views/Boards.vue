@@ -3,11 +3,15 @@
     <v-container class="my-5">
       <v-layout row class="mt-5">
         <v-flex v-for="mod in APIData" :key="mod.id" xs8 md4 lg2>
+          <v-hover
+          v-slot="{ hover }"
+          >
           <v-card
           outlined
           block
           shaped
-          elevation="5"
+          :elevation="hover ? 16 : 2"
+          :class="{ 'on-hover': hover }"
           min-height="140"
           class="ma-5"
           @contextmenu="showBoardMenu">
@@ -22,16 +26,10 @@
               absolute
               offset-y
               >
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in items"
-                  :key="index"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
+                  <v-btn @click="showEditBoardDialog">Edit</v-btn>
             </v-menu>
           </v-card>
+          </v-hover>
         </v-flex>
         <v-flex xs8 md4 lg2>
           <v-card
@@ -61,11 +59,7 @@
     data: () => ({
       showMenu: false,
       x: 0,
-      y: 0,
-      items: [
-        { title: 'Click Me 1' },
-        { title: 'Click Me 2' }
-      ]
+      y: 0
     }),
     name: 'Boards',
     onIdle () { // dispatch logoutUser if no activity detected
