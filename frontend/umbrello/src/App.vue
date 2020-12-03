@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary">
+    <v-app-bar flat app color="primary">
       <v-toolbar flat color="primary">
-        <router-link to="/">
-        <v-toolbar-title class="white--text">Umbrello.</v-toolbar-title>
+        <router-link to="/" style="text-decoration: none; color: inherit;">
+        <v-toolbar-title class="white--text ">Umbrello.</v-toolbar-title>
         </router-link>
         <v-spacer></v-spacer>
         <v-btn v-if="accessToken==null" to="/login">
@@ -33,3 +33,16 @@
     computed: mapState(['accessToken'])
   }
 </script>
+
+<style>
+html {
+  overflow: hidden !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+</style>
