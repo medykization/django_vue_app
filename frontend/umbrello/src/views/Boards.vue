@@ -107,9 +107,3 @@
     }
   }
 </script>
-<style scoped>
-  .bg {
-    background: url('https://i.imgur.com/C8BYhgw.jpeg') no-repeat center center;
-    background-size: fill;
-  }
-</style>
