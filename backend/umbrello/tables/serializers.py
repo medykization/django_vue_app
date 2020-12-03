@@ -1,4 +1,4 @@
-from tables.models import Board
+from tables.models import Board, List
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, ValidationError
 
@@ -24,3 +24,11 @@ class BoardSerializer(ModelSerializer):
             data['user'] = user
             return data
         raise ValidationError('board already exist')
+
+class ListSerializer(ModelSerializer):
+    class Meta:
+        model = List
+        fields = ['name',]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

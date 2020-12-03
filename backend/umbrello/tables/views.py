@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
-from tables.serializers import BoardSerializer
+from tables.serializers import BoardSerializer, ListSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
-from tables.models import Board
+from tables.models import Board, List
 import json
 
 
@@ -57,3 +57,17 @@ class BoardsUpdate(GenericAPIView):
         except Board.DoesNotExist:
             return Response("Board doesn't exist")
         
+
+class ListsView(generics.RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self, board_name):
+        board = Board.objects.get(name = board_name)
+        return List.objects.filter(board_id=board)  # return all model objects
+
+    def get(self, request, *args, **kwargs):  # GET request handler for the model
+        board = request.data
+        board = board['board']
+        queryset = self.get_queryset(board)
+        serializer = ListSerializer(queryset, many=True)
+        return Response(serializer.data)
