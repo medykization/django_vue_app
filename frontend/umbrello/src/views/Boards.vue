@@ -9,12 +9,28 @@
           shaped
           elevation="5"
           min-height="140"
-          class="ma-5">
+          class="ma-5"
+          @contextmenu="showBoardMenu">
             <v-container class="blue lighten-4"></v-container>
             <v-card-title>{{mod.name}}</v-card-title>
             <v-card-subtitle>SubTitle</v-card-subtitle>
             <v-card-text>Text Text Text Text Text</v-card-text>
-            <v-card-actions></v-card-actions>
+              <v-menu
+              v-model="showMenu"
+              :position-x="x"
+              :position-y="y"
+              absolute
+              offset-y
+              >
+              <v-list>
+                <v-list-item
+                  v-for="(item, index) in items"
+                  :key="index"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-card>
         </v-flex>
         <v-flex xs8 md4 lg2>
@@ -42,6 +58,15 @@
   import { getAPI } from '../api/axios-base'
   import { mapState } from 'vuex'
   export default {
+    data: () => ({
+      showMenu: false,
+      x: 0,
+      y: 0,
+      items: [
+        { title: 'Click Me 1' },
+        { title: 'Click Me 2' }
+      ]
+    }),
     name: 'Boards',
     onIdle () { // dispatch logoutUser if no activity detected
       this.$store.dispatch('logoutUser')
@@ -63,6 +88,15 @@
           })
     },
     methods: {
+      showBoardMenu (e) {
+        e.preventDefault()
+        this.showMenu = false
+        this.x = e.clientX
+        this.y = e.clientY
+        this.$nextTick(() => {
+          this.showMenu = true
+        })
+      },
       addBoard () {
         getAPI.post('/boards/add',
           { name: this.name },
