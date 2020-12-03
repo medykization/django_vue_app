@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="bg">
     <v-app-bar flat app color="primary">
       <v-toolbar flat color="primary">
         <router-link to="/" style="text-decoration: none; color: inherit;">
@@ -20,7 +20,7 @@
         </v-btn>
       </v-toolbar>
     </v-app-bar>
-    <v-content>
+    <v-content class="bg">
       <router-view/>
     </v-content>
   </v-app>
@@ -45,4 +45,9 @@ html::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
+
+.bg {
+    background: url('https://i.imgur.com/C8BYhgw.jpeg') no-repeat center center;
+    background-size: fill;
+  }
 </style>

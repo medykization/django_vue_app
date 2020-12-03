@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid fill-height class="bg">
+  <v-container fluid fill-height>
   <v-container fluid>
     <v-layout row align-center>
       <v-flex xs12 sm6 offset-sm3 class="text-xs-center pt-16 white--text">

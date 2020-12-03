@@ -1,19 +1,40 @@
 <template>
-  <div class="boards">
-    <div class="bod">
-      <h2>Boards:</h2>
-      <h2 v-for="mod in APIData" :key="mod.id">
-        <div>
-          {{mod.name}}
-        </div>
-      </h2>
-      <form @submit.prevent="addBoard">
-        <label for="user">Name of board</label>
-        <input type="text" name="Name" id="Name" v-model="name">
-        <button type="submit">Add</button>
-      </form>
-      <h2></h2>
-    </div>
+  <div fluid fill-height>
+    <v-container class="my-5">
+      <v-layout row class="mt-5">
+        <v-flex v-for="mod in APIData" :key="mod.id" xs8 md4 lg2>
+          <v-card
+          outlined
+          block
+          shaped
+          elevation="5"
+          min-height="140"
+          class="ma-5">
+            <v-container class="blue lighten-4"></v-container>
+            <v-card-title>{{mod.name}}</v-card-title>
+            <v-card-subtitle>SubTitle</v-card-subtitle>
+            <v-card-text>Text Text Text Text Text</v-card-text>
+            <v-card-actions></v-card-actions>
+          </v-card>
+        </v-flex>
+        <v-flex xs8 md4 lg2>
+          <v-card
+          outlined
+          block
+          shaped
+          elevation="5"
+          min-height="140"
+          class="ma-5">
+            <v-container class="blue lighten-4"></v-container>
+            <form @submit.prevent="addBoard">
+              <label for="user">Name of board</label>
+              <input type="text" name="Name" id="Name" v-model="name">
+              <button type="submit">Add</button>
+            </form>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -34,7 +55,7 @@
           headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } }) // proof that your access token is still valid; if not the
         // axios getAPI response interceptor will attempt to get a new  access token from the server. check out ../api/axios-base.js getAPI instance response interceptor
           .then(response => {
-            console.log('GetAPI successfully got the mods')
+            console.log('GetAPI successfully got the boards')
             this.$store.state.APIData = response.data // store the response data in store
           })
           .catch(err => { // refresh token expired or some other error status
@@ -58,30 +79,9 @@
     }
   }
 </script>
-
 <style scoped>
-  @import url(https://fonts.googleapis.com/css?family=Quicksand) ;
-  .downloads {
-    margin: 0;
-    padding: 0;
-  }
-  .bod {
-    background-color: #606366;
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-family: 'Quicksand', sans-serif;
-    padding: 0;
-    margin: 78px auto;
-  }
-  .bod h1 {
-    background-color: #292b2d;
-    padding: 40px 0 40px 0;
-    font-size: 32px;
-    margin: 0;
-  }
-  .bod h2 {
-    margin: 0;
-    padding: 10px 0 10px 0;
+  .bg {
+    background: url('https://i.imgur.com/C8BYhgw.jpeg') no-repeat center center;
+    background-size: fill;
   }
 </style>
