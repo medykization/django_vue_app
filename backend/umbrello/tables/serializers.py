@@ -18,7 +18,6 @@ class BoardSerializer(ModelSerializer):
         board.save()
 
     def validate(self, data):
-
         user = self.user
         if not Board.objects.filter(owner_id=user).filter(name=data.get("name")).exists():
             data['user'] = user
@@ -32,3 +31,20 @@ class ListSerializer(ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+class AddListSerializer(ModelSerializer):
+    class Meta:
+        model = List
+        fields = ['name',]
+
+    def __init__(self, *args, **kwargs):
+        self.board = kwargs.pop('board')
+        self.order = kwargs.pop('order')
+        super().__init__(*args, **kwargs)
+
+    def create(self, validated_data):
+        board = self.board
+        order = self.order
+        
+        new_list = List(board_id=board, name=validated_data['name'], order = order)
+        new_list.save()

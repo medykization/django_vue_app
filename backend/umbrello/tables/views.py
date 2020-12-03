@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
-from tables.serializers import BoardSerializer, ListSerializer
+from tables.serializers import BoardSerializer, ListSerializer, AddListSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from tables.models import Board, List
+from django.db.models import Max
 import json
 
 
@@ -58,7 +59,7 @@ class BoardsUpdate(GenericAPIView):
             return Response("Board doesn't exist")
         
 
-class ListsView(generics.RetrieveAPIView):
+class ListView(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self, board_name):
@@ -71,3 +72,22 @@ class ListsView(generics.RetrieveAPIView):
         queryset = self.get_queryset(board)
         serializer = ListSerializer(queryset, many=True)
         return Response(serializer.data)
+
+class ListAdd(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self, user, board_name):
+        board = Board.objects.get(owner_id = user, name = board_name)
+        user_list = List.objects.filter(board_id = board).order_by('order').last()
+        return board, user_list.order + 1
+
+    def post(self, request, *args):
+        user = request.user
+        body = request.data
+        input = {"name": body['name']}
+        board, order = self.get_queryset(user,body['board_name'])
+        serializer = AddListSerializer(data=input, board=board, order = order)
+        if serializer.is_valid(raise_exception=True):
+            serializer.create(serializer.validated_data)
+            return Response("List added",status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
