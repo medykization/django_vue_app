@@ -3,19 +3,23 @@
     <v-app-bar flat app color="primary">
       <v-toolbar flat color="primary">
         <router-link to="/" style="text-decoration: none; color: inherit;">
-        <v-toolbar-title class="white--text ">Umbrello.</v-toolbar-title>
+        <v-toolbar-title class="white--text"><v-icon medium dense color="white">mdi-umbrella-outline</v-icon> Umbrello.</v-toolbar-title>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn v-if="accessToken==null" to="/login">
+        <v-btn color="primary" elevation="0"
+        v-if="accessToken==null" to="/login">
           Sign In
         </v-btn>
-        <v-btn v-if="accessToken==null" to="/register">
+        <v-btn color="primary" elevation="0"
+        v-if="accessToken==null" to="/register">
           Sign Up
         </v-btn>
-        <v-btn v-if="accessToken!=null" to="/dashboard">
+        <v-btn color="primary" elevation="0"
+        v-if="accessToken!=null" to="/dashboard">
           Boards
         </v-btn>
-        <v-btn v-if="accessToken!=null" to="/logout">
+        <v-btn color="secondary" elevation="0"
+        v-if="accessToken!=null" to="/logout">
           Sign Out
         </v-btn>
       </v-toolbar>
