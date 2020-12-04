@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import login from './views/SignIn'
 import register from './views/SignUp'
-import boards from './views/Boards'
+import dashboard from './views/DashBoard'
 import logout from './views/Logout'
 import about from './views/About'
 
@@ -35,9 +35,9 @@ export default new Router({
       }
     },
     {
-      path: '/boards',
-      name: 'boards',
-      component: boards,
+      path: '/dashboard',
+      name: 'dashboard',
+      component: dashboard,
       meta: {
         requiresAuth: true
       }
