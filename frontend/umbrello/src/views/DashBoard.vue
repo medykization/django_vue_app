@@ -14,21 +14,11 @@
           :elevation="hover ? 16 : 2"
           :class="{ 'on-hover': hover }"
           min-height="140"
-          class="ma-5"
-          @contextmenu="showBoardMenu">
+          class="ma-5">
             <v-container class="blue lighten-3"></v-container>
             <v-card-title>{{mod.name}}</v-card-title>
             <v-card-subtitle>SubTitle</v-card-subtitle>
             <v-card-text>Text Text Text Text Text</v-card-text>
-              <v-menu
-              v-model="showMenu"
-              :position-x="x"
-              :position-y="y"
-              absolute
-              offset-y
-              >
-                  <v-btn>Edit</v-btn>
-            </v-menu>
           </v-card>
           </v-hover>
         </v-flex>
@@ -60,10 +50,7 @@
   import { mapState } from 'vuex'
   export default {
     data: () => ({
-      name: '',
-      showMenu: false,
-      x: 0,
-      y: 0
+      name: ''
     }),
     name: 'Boards',
     onIdle () { // dispatch logoutUser if no activity detected
@@ -88,15 +75,6 @@
     methods: {
       testFunction: function (event) {
         console.log('test clicked')
-      },
-      showBoardMenu (e) {
-        e.preventDefault()
-        this.showMenu = false
-        this.x = e.clientX
-        this.y = e.clientY
-        this.$nextTick(() => {
-          this.showMenu = true
-        })
       },
       addBoard () {
         getAPI.post('/boards/add',
