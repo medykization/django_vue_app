@@ -1,4 +1,4 @@
-from boards.models import Board, List
+from boards.models import Board, List, Card
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, ValidationError
 
@@ -48,3 +48,20 @@ class AddListSerializer(ModelSerializer):
         
         new_list = List(board_id=board, name=validated_data['name'], order = order)
         new_list.save()
+
+class AddCardSerializer(ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ['name','description',]
+
+    def __init__(self, *args, **kwargs):
+        self.list = kwargs.pop('list')
+        self.order = kwargs.pop('order')
+        super().__init__(*args, **kwargs)
+
+    def create(self, validated_data):
+        list_id = self.list
+        order = self.order
+        
+        new_card = Card(list_id=list_id, name=validated_data['name'], description = validated_data['description'], order = order)
+        new_card.save()
