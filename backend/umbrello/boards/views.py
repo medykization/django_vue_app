@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
-from tables.serializers import BoardSerializer, ListSerializer, AddListSerializer
+from boards.serializers import BoardSerializer, ListSerializer, AddListSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
-from tables.models import Board, List
+from boards.models import Board, List
 from django.db.models import Max
+from django.contrib.auth.models import User
 import json
 
 
@@ -62,22 +63,44 @@ class BoardsUpdate(GenericAPIView):
 class ListView(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self, board_name):
-        board = Board.objects.get(name = board_name)
+    def get_queryset(self, id):
+        board = Board.objects.get(id = id)
         return List.objects.filter(board_id=board)  # return all model objects
 
-    def get(self, request, *args, **kwargs):  # GET request handler for the model
+    def post(self, request, *args, **kwargs):  # GET request handler for the model
         board = request.data
-        board = board['board']
-        queryset = self.get_queryset(board)
+        id = board['board_id']
+        queryset = self.get_queryset(id)
         serializer = ListSerializer(queryset, many=True)
         return Response(serializer.data)
 
 class ListAdd(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
+    def get_queryset(self, user, board_id):
+        board = Board.objects.get(owner_id = user, id = board_id)
+        user_list = List.objects.filter(board_id = board).order_by('order').last()
+        return board, user_list.order + 1
+
+    def post(self, request, *args):
+        user = request.user
+        body = request.data
+        input = {"name": body['name']}
+        try:
+            board, order = self.get_queryset(user,body['board_id'])
+        except Board.DoesNotExist:
+            return Response("Board doesn't exist")
+        serializer = AddListSerializer(data=input, board=board, order = order)
+        if serializer.is_valid(raise_exception=True):
+            serializer.create(serializer.validated_data)
+            return Response("List added",status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CardAdd(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
     def get_queryset(self, user, board_name):
-        board = Board.objects.get(owner_id = user, name = board_name)
+        board = List.objects.get(owner_id = user, name = board_name)
         user_list = List.objects.filter(board_id = board).order_by('order').last()
         return board, user_list.order + 1
 

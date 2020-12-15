@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'user_auth',
-    'tables',
+    'authenticate',
+    'boards',
     'rest_framework_simplejwt.token_blacklist',
 ]
 
