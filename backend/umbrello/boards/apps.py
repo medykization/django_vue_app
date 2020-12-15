@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class TabelsConfig(AppConfig):
-    name = 'tables'
+    name = 'boards'

@@ -1,4 +1,4 @@
-from tables.models import Board, List
+from boards.models import Board, List
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, ValidationError
 
@@ -6,7 +6,7 @@ from rest_framework.serializers import ModelSerializer, ValidationError
 class BoardSerializer(ModelSerializer):
     class Meta:
         model = Board
-        fields = ['name', ]
+        fields = ['id','name',]
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -27,7 +27,7 @@ class BoardSerializer(ModelSerializer):
 class ListSerializer(ModelSerializer):
     class Meta:
         model = List
-        fields = ['name',]
+        fields = ['id','name',]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,7 +35,7 @@ class ListSerializer(ModelSerializer):
 class AddListSerializer(ModelSerializer):
     class Meta:
         model = List
-        fields = ['name',]
+        fields = ['id','name',]
 
     def __init__(self, *args, **kwargs):
         self.board = kwargs.pop('board')
