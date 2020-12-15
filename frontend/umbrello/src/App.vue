@@ -24,9 +24,9 @@
         </v-btn>
       </v-toolbar>
     </v-app-bar>
-    <v-content class="bg">
+    <v-main class="bg">
       <router-view/>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

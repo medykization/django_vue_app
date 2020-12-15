@@ -7,6 +7,7 @@
           v-slot="{ hover }"
           >
           <v-card
+          @click.native="testFunction"
           outlined
           block
           shaped
@@ -26,7 +27,7 @@
               absolute
               offset-y
               >
-                  <v-btn @click="showEditBoardDialog">Edit</v-btn>
+                  <v-btn>Edit</v-btn>
             </v-menu>
           </v-card>
           </v-hover>
@@ -45,7 +46,7 @@
                 <input type="text" name="Name" id="Name" v-model="name">
             </v-card-subtitle>
             <v-card-actions>
-              <v-btn flat color="green lighten-1" @click="addBoard">Add</v-btn>
+              <v-btn color="green lighten-1" @click="addBoard">Add</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -59,6 +60,7 @@
   import { mapState } from 'vuex'
   export default {
     data: () => ({
+      name: '',
       showMenu: false,
       x: 0,
       y: 0
@@ -84,6 +86,9 @@
           })
     },
     methods: {
+      testFunction: function (event) {
+        console.log('test clicked')
+      },
       showBoardMenu (e) {
         e.preventDefault()
         this.showMenu = false
