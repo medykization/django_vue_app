@@ -53,7 +53,7 @@
                       ></v-text-field>
                   </v-flex>
                   <v-flex class="text-xs-center" my-5>
-                    <v-btn @click="registerUser()" color="primary" type="submit">Sign Up</v-btn>
+                    <v-btn @click="registerUser()" color="primary" type="button">Sign Up</v-btn>
                   </v-flex>
                 </v-layout>
               </form>

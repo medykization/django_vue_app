@@ -33,7 +33,7 @@
                       required></v-text-field>
                   </v-flex>
                   <v-flex class="text-xs-center" my-5>
-                    <v-btn @click="loginUser()" color="primary" type="submit">Sign In</v-btn>
+                    <v-btn @click="loginUser()" color="primary" type="button">Sign In</v-btn>
                   </v-flex>
               </form>
             </v-flex>
@@ -61,7 +61,7 @@
         })
             .then(() => {
               this.wrongCred = false
-              // this.$router.push({ name: 'downloads' })
+              this.$router.push({ name: 'dashboard' })
             })
           .catch(err => {
             console.log(err)
