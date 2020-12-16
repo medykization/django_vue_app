@@ -27,7 +27,7 @@ class BoardSerializer(ModelSerializer):
 class ListSerializer(ModelSerializer):
     class Meta:
         model = List
-        fields = ['id','name',]
+        fields = ['id','name','order',]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -65,3 +65,11 @@ class AddCardSerializer(ModelSerializer):
         
         new_card = Card(list_id=list_id, name=validated_data['name'], description = validated_data['description'], order = order)
         new_card.save()
+
+class CardSerializer(ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ['id','name','description','order',]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

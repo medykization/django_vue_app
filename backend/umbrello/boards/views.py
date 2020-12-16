@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
-from boards.serializers import BoardSerializer, ListSerializer, AddListSerializer, AddCardSerializer
+from boards.serializers import BoardSerializer, ListSerializer, AddListSerializer, AddCardSerializer, CardSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from boards.models import Board, List, Card
@@ -68,11 +68,29 @@ class ListView(generics.RetrieveAPIView):
         return List.objects.filter(board_id=board)  # return all model objects
 
     def post(self, request, *args, **kwargs):  # GET request handler for the model
-        board = request.data
-        id = board['board_id']
+        body = request.data
+        id = body['board_id']
         queryset = self.get_queryset(id)
         serializer = ListSerializer(queryset, many=True)
         return Response(serializer.data)
+
+class ListUpdate(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        body = request.data
+        list_id = body['list_id']
+        old_name = body['old_name']
+        new_name = body['new_name']
+        if old_name == new_name:
+            return Response("You enter the same name")
+        try:
+            li = List.objects.get(id = list_id, name = old_name)
+            li.name = new_name
+            li.save()
+            return Response("List name updated")
+        except Board.DoesNotExist:
+            return Response("List doesn't exist")
 
 class ListAdd(GenericAPIView):
     permission_classes = (IsAuthenticated,)
@@ -82,7 +100,7 @@ class ListAdd(GenericAPIView):
         last_list = List.objects.filter(board_id = board).order_by('order').last()
         if last_list is None:
             return board, 1
-        return board, user_list.order + 1
+        return board, last_list.order + 1
 
     def post(self, request, *args):
         user = request.user
@@ -121,3 +139,17 @@ class CardAdd(GenericAPIView):
             serializer.create(serializer.validated_data)
             return Response("Card added",status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CardView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self, id):
+        li = List.objects.get(id = id)
+        return Card.objects.filter(list_id=li)  # return all model objects
+
+    def post(self, request, *args, **kwargs):  # GET request handler for the model
+        body = request.data
+        id = body['list_id']
+        queryset = self.get_queryset(id)
+        serializer = CardSerializer(queryset, many=True)
+        return Response(serializer.data)
