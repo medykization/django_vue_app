@@ -104,6 +104,7 @@ class ListArchive(GenericAPIView):
                 return Response("List is already archived")
             for card in cards:
                 card.archived = True
+                card.save()
             li.archived = True
             li.save()
             return Response("List archived")
@@ -150,6 +151,8 @@ class CardAdd(GenericAPIView):
         input = {"name": body['name'], "description": body['description']}
         try:
             li, order = self.get_queryset(user,body['list_id'])
+            if li.archive == True:
+                return Response("List is archived")
         except List.DoesNotExist:
             return Response("List doesn't exist")
         serializer = AddCardSerializer(data=input, list=li, order = order)
