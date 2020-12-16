@@ -47,13 +47,13 @@ class BoardNameUpdate(GenericAPIView):
     def put(self, request, *args, **kwargs):
         user = request.user
         body = request.data
-        board_id = body['id']
-        new_name = body['name']
+        id = body['id']
+        name = body['name']
         try:
-            board = Board.objects.get(owner_id = user, id = board_id)
-            if board.name == new_name:
+            board = Board.objects.get(owner_id = user, id = id)
+            if board.name == name:
                 return Response("You enter the same name")
-            board.name = new_name
+            board.name = name
             board.save()
             return Response("Board name updated")
         except Board.DoesNotExist:
@@ -79,13 +79,13 @@ class ListNameUpdate(GenericAPIView):
 
     def put(self, request, *args, **kwargs):
         body = request.data
-        list_id = body['id']
-        new_name = body['name']
+        id = body['id']
+        name = body['name']
         try:
-            li = List.objects.get(id = list_id)
-            if li.name == new_name:
+            li = List.objects.get(id = id)
+            if li.name == name:
                 return Response("You enter the same name")
-            li.name = new_name
+            li.name = name
             li.save()
             return Response("List name updated")
         except Board.DoesNotExist:
@@ -120,9 +120,9 @@ class ListArchive(GenericAPIView):
 
     def put(self, request, *args, **kwargs):
         body = request.data
-        list_id = body['id']
+        id = body['id']
         try:
-            li = List.objects.get(id = list_id)
+            li = List.objects.get(id = id)
             cards = Card.objects.filter(list_id = li)
             for card in cards:
                 card.archived = not card.archived
@@ -141,9 +141,9 @@ class ListDelete(GenericAPIView):
 
     def delete(self, request, *args, **kwargs):
         body = request.data
-        list_id = body['id']
+        id = body['id']
         try:
-            List.objects.get(id = list_id, archived = True).delete()
+            List.objects.get(id = id, archived = True).delete()
             return Response("List deleted")
         except List.DoesNotExist:
             return Response("List doesn't exist")
@@ -210,9 +210,9 @@ class CardArchive(GenericAPIView):
 
     def put(self, request, *args, **kwargs):
         body = request.data
-        card_id = body['id']
+        id = body['id']
         try:
-            card = Card.objects.get(id = card_id)
+            card = Card.objects.get(id = id)
             card.archived = not card.archived
             card.save()
             if card.archived == True:
@@ -227,9 +227,9 @@ class CardDelete(GenericAPIView):
 
     def delete(self, request, *args, **kwargs):
         body = request.data
-        card = body['id']
+        id = body['id']
         try:
-            Card.objects.get(id = card, archived = True).delete()
+            Card.objects.get(id = id, archived = True).delete()
             return Response("Card deleted")
         except List.DoesNotExist:
             return Response("Card doesn't exist")
