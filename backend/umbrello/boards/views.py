@@ -148,6 +148,28 @@ class ListDelete(GenericAPIView):
         except List.DoesNotExist:
             return Response("List doesn't exist")
 
+class ListChangeOrder(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        body = request.data
+        id = body['id']
+        nr = body['nr']
+        try:
+            li = List.objects.get(id = id)
+            if nr == li.order:
+                return Response("You enter the same value")
+
+            last_nr = List.objects.filter(board_id = li.board_id).order_by('order').last()
+
+            if nr > last_nr or nr < 1:
+                return Response("The entered number is incorrect")
+
+            #lists = List.object.filter(order__gte=)
+            return Response("List name updated")
+        except Board.DoesNotExist:
+            return Response("List doesn't exist")
+
 class CardView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
