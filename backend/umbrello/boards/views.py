@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 import json
 
 
-class BoardsView(generics.RetrieveAPIView):
+class BoardView(generics.RetrieveAPIView):
     # checks if user is authenticated to view the model objects
     permission_classes = (IsAuthenticated,)
 
@@ -27,7 +27,7 @@ class BoardsView(generics.RetrieveAPIView):
         return Response(serializer.data)
 
 
-class BoardsAdd(GenericAPIView):
+class BoardAdd(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args):
@@ -41,18 +41,18 @@ class BoardsAdd(GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class BoardsUpdate(GenericAPIView):
+class BoardNameUpdate(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request, *args, **kwargs):
         user = request.user
         body = request.data
-        old_name = body['old_name']
+        board_id = body['board_id']
         new_name = body['new_name']
-        if old_name == new_name:
-            return Response("You enter the same name")
         try:
-            board = Board.objects.get(owner_id = user, name = old_name)
+            board = Board.objects.get(owner_id = user, id = board_id)
+            if board.name == new_name:
+                return Response("You enter the same name")
             board.name = new_name
             board.save()
             return Response("Board name updated")
@@ -74,18 +74,17 @@ class ListView(generics.RetrieveAPIView):
         serializer = ListSerializer(queryset, many=True)
         return Response(serializer.data)
 
-class ListUpdate(GenericAPIView):
+class ListNameUpdate(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request, *args, **kwargs):
         body = request.data
         list_id = body['list_id']
-        old_name = body['old_name']
         new_name = body['new_name']
-        if old_name == new_name:
-            return Response("You enter the same name")
         try:
-            li = List.objects.get(id = list_id, name = old_name)
+            li = List.objects.get(id = list_id)
+            if li.name == new_name:
+                return Response("You enter the same name")
             li.name = new_name
             li.save()
             return Response("List name updated")
