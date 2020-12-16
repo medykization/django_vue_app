@@ -91,27 +91,6 @@ class ListNameUpdate(GenericAPIView):
         except Board.DoesNotExist:
             return Response("List doesn't exist")
 
-class ListArchive(GenericAPIView):
-    permission_classes = (IsAuthenticated,)
-
-    def put(self, request, *args, **kwargs):
-        body = request.data
-        list_id = body['id']
-        try:
-            li = List.objects.get(id = list_id)
-            cards = Card.objects.filter(list_id = li)
-            for card in cards:
-                card.archived = not card.archived
-                card.save()
-            li.archived = not li.archived
-            li.save()
-            if li.archived == True:
-                return Response("Card archived")
-            else:
-                return Response("Card unarchived")
-        except List.DoesNotExist:
-            return Response("List doesn't exist")
-
 class ListAdd(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
@@ -135,6 +114,39 @@ class ListAdd(GenericAPIView):
             serializer.create(serializer.validated_data)
             return Response("List added",status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ListArchive(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        body = request.data
+        list_id = body['id']
+        try:
+            li = List.objects.get(id = list_id)
+            cards = Card.objects.filter(list_id = li)
+            for card in cards:
+                card.archived = not card.archived
+                card.save()
+            li.archived = not li.archived
+            li.save()
+            if li.archived == True:
+                return Response("Card archived")
+            else:
+                return Response("Card unarchived")
+        except List.DoesNotExist:
+            return Response("List doesn't exist")
+
+class ListDelete(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        body = request.data
+        list_id = body['id']
+        try:
+            List.objects.get(id = list_id, archived = True).delete()
+            return Response("List deleted")
+        except List.DoesNotExist:
+            return Response("List doesn't exist")
 
 class CardAdd(GenericAPIView):
     permission_classes = (IsAuthenticated,)
@@ -191,4 +203,16 @@ class CardArchive(GenericAPIView):
             else:
                 return Response("Card unarchived")
         except Card.DoesNotExist:
+            return Response("Card doesn't exist")
+
+class CardDelete(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        body = request.data
+        card = body['id']
+        try:
+            Card.objects.get(id = card, archived = True).delete()
+            return Response("Card deleted")
+        except List.DoesNotExist:
             return Response("Card doesn't exist")
