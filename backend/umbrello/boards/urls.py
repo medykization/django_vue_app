@@ -11,7 +11,7 @@ urlpatterns = [
     path('lists', ListView.as_view()),
     path('add/list', ListAdd.as_view()),
     path('update/list', ListNameUpdate.as_view()),
-    #path('archive/list', CardAdd.as_view()),
+    path('archive/list', CardAdd.as_view()),
     path('cards', CardView.as_view()),
     path('add/card', CardAdd.as_view()),
     #path('archive/card', CardAdd.as_view()),

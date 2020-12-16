@@ -19,10 +19,9 @@ class BoardSerializer(ModelSerializer):
 
     def validate(self, data):
         user = self.user
-        if not Board.objects.filter(owner_id=user).filter(name=data.get("name")).exists():
-            data['user'] = user
-            return data
-        raise ValidationError('board already exist')
+        #if not Board.objects.filter(owner_id=user).filter(name=data.get("name")).exists():
+        data['user'] = user
+        return data
 
 class ListSerializer(ModelSerializer):
     class Meta:

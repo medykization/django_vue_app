@@ -47,8 +47,8 @@ class BoardNameUpdate(GenericAPIView):
     def put(self, request, *args, **kwargs):
         user = request.user
         body = request.data
-        board_id = body['board_id']
-        new_name = body['new_name']
+        board_id = body['id']
+        new_name = body['name']
         try:
             board = Board.objects.get(owner_id = user, id = board_id)
             if board.name == new_name:
@@ -69,7 +69,7 @@ class ListView(generics.RetrieveAPIView):
 
     def post(self, request, *args, **kwargs):  # GET request handler for the model
         body = request.data
-        id = body['board_id']
+        id = body['id']
         queryset = self.get_queryset(id)
         serializer = ListSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -79,8 +79,8 @@ class ListNameUpdate(GenericAPIView):
 
     def put(self, request, *args, **kwargs):
         body = request.data
-        list_id = body['list_id']
-        new_name = body['new_name']
+        list_id = body['id']
+        new_name = body['name']
         try:
             li = List.objects.get(id = list_id)
             if li.name == new_name:
@@ -88,6 +88,25 @@ class ListNameUpdate(GenericAPIView):
             li.name = new_name
             li.save()
             return Response("List name updated")
+        except Board.DoesNotExist:
+            return Response("List doesn't exist")
+
+class ListArchive(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        body = request.data
+        list_id = body['id']
+        try:
+            li = List.objects.get(id = list_id)
+            cards = Card.objects.filter(list_id = li)
+            if li.archived == True:
+                return Response("List is already archived")
+            for card in cards:
+                card.archived = True
+            li.archived = True
+            li.save()
+            return Response("List archived")
         except Board.DoesNotExist:
             return Response("List doesn't exist")
 
@@ -148,7 +167,7 @@ class CardView(GenericAPIView):
 
     def post(self, request, *args, **kwargs):  # GET request handler for the model
         body = request.data
-        id = body['list_id']
+        id = body['id']
         queryset = self.get_queryset(id)
         serializer = CardSerializer(queryset, many=True)
         return Response(serializer.data)
