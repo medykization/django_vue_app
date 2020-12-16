@@ -26,7 +26,7 @@ class BoardSerializer(ModelSerializer):
 class ListSerializer(ModelSerializer):
     class Meta:
         model = List
-        fields = ['id','name','order',]
+        fields = ['id','name','order','archived']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

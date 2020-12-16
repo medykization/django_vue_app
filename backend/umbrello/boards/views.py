@@ -100,15 +100,16 @@ class ListArchive(GenericAPIView):
         try:
             li = List.objects.get(id = list_id)
             cards = Card.objects.filter(list_id = li)
-            if li.archived == True:
-                return Response("List is already archived")
             for card in cards:
-                card.archived = True
+                card.archived = not card.archived
                 card.save()
-            li.archived = True
+            li.archived = not li.archived
             li.save()
-            return Response("List archived")
-        except Board.DoesNotExist:
+            if li.archived == True:
+                return Response("Card archived")
+            else:
+                return Response("Card unarchived")
+        except List.DoesNotExist:
             return Response("List doesn't exist")
 
 class ListAdd(GenericAPIView):
@@ -174,3 +175,20 @@ class CardView(GenericAPIView):
         queryset = self.get_queryset(id)
         serializer = CardSerializer(queryset, many=True)
         return Response(serializer.data)
+
+class CardArchive(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        body = request.data
+        card_id = body['id']
+        try:
+            card = Card.objects.get(id = card_id)
+            card.archived = not card.archived
+            card.save()
+            if card.archived == True:
+                return Response("Card archived")
+            else:
+                return Response("Card unarchived")
+        except Card.DoesNotExist:
+            return Response("Card doesn't exist")
