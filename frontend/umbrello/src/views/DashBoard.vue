@@ -14,9 +14,8 @@
           class="ma-5">
             <v-container class="blue lighten-5"></v-container>
             <v-card-title>New Board</v-card-title>
-                <input type="text" name="Name" id="Name" v-model="name">
             <v-card-actions>
-              <v-btn color="green lighten-1" @click="addBoard">Add</v-btn>
+              <modal v-show="isModalVisible"/>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -28,12 +27,19 @@
 <script>
   import BoardCard from '../components/BoardCard.vue'
   import { getAPI } from '../api/axios-base'
+  import modal from '../components/Modal.vue'
   import { mapState } from 'vuex'
   export default {
-    components: { BoardCard },
-    data: () => ({
-      name: ''
-    }),
+    components: {
+      BoardCard,
+      modal
+    },
+    name: 'app',
+    data () {
+      return {
+        isModalVisible: true
+      }
+    },
     onIdle () { // dispatch logoutUser if no activity detected
       this.$store.dispatch('logoutUser')
         .then(response => {
@@ -52,22 +58,6 @@
           .catch(err => { // refresh token expired or some other error status
             console.log(err)
           })
-    },
-    methods: {
-      addBoard () {
-        getAPI.post('/boards/add',
-          { name: this.name },
-          { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` }
-        })
-        .then(response => {
-            console.log('GetAPI successfully added the board')
-            window.location.reload()
-            // this.$store.state.APIData = response.data // store the response data in store
-          })
-          .catch(err => { // refresh token expired or some other error status
-            console.log(err)
-          })
-      }
     }
   }
 </script>
