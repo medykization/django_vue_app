@@ -148,6 +148,20 @@ class ListDelete(GenericAPIView):
         except List.DoesNotExist:
             return Response("List doesn't exist")
 
+class CardView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self, id):
+        li = List.objects.get(id = id)
+        return Card.objects.filter(list_id=li)  # return all model objects
+
+    def post(self, request, *args, **kwargs):  # GET request handler for the model
+        body = request.data
+        id = body['id']
+        queryset = self.get_queryset(id)
+        serializer = CardSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 class CardAdd(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
@@ -174,19 +188,22 @@ class CardAdd(GenericAPIView):
             return Response("Card added",status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CardView(GenericAPIView):
+class CardValuesUpdate(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self, id):
-        li = List.objects.get(id = id)
-        return Card.objects.filter(list_id=li)  # return all model objects
-
-    def post(self, request, *args, **kwargs):  # GET request handler for the model
+    def put(self, request, *args, **kwargs):
         body = request.data
         id = body['id']
-        queryset = self.get_queryset(id)
-        serializer = CardSerializer(queryset, many=True)
-        return Response(serializer.data)
+        name = body['name']
+        description = body['description']
+        try:
+            card = Card.objects.get(id = id)
+            card.name = name
+            card.description = description
+            card.save()
+            return Response("Card values updated")
+        except Board.DoesNotExist:
+            return Response("Card doesn't exist")
 
 class CardArchive(GenericAPIView):
     permission_classes = (IsAuthenticated,)
