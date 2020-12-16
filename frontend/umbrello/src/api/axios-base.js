@@ -19,7 +19,7 @@ getAPI.interceptors.response.use(undefined, function (err) {
           baseURL: APIUrl,
           method: 'get',
           headers: { Authorization: `Bearer ${access}` }, // the new access token is attached to the authorization header
-          url: '/mods/'
+          url: '/mods'
         }).then(response => {
           // if successfully received the data store it in store.state.APIData so that 'Downloads' component can grab the
           // data from it and display to the client.

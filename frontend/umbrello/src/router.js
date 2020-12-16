@@ -6,6 +6,7 @@ import register from './views/SignUp'
 import dashboard from './views/DashBoard'
 import logout from './views/Logout'
 import about from './views/About'
+import board from './views/Board'
 
 Vue.use(Router)
 
@@ -54,6 +55,14 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: about
+    },
+    {
+      path: '/board/:id/:name',
+      name: 'board',
+      component: board,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })

@@ -3,13 +3,12 @@
     <v-container class="my-5">
       <v-layout row class="mt-5">
         <v-flex v-for="mod in APIData" :key="mod.id" xs8 md4 lg2>
-          <BoardCard :boardName="mod.name"/>
+          <BoardCard :boardName="mod.name" :boardid="mod.id"/>
         </v-flex>
         <v-flex xs8 md4 lg2>
           <v-card
           outlined
           block
-          shaped
           elevation="5"
           min-height="140"
           class="ma-5">
