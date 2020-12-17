@@ -34,7 +34,7 @@ class Card(models.Model):
     archived = models.BooleanField(default = False)
     order = models.DecimalField(
         max_digits=30, decimal_places=15, blank=True, null=True)
-    description = models.CharField(max_length=30)
+    description = models.CharField(max_length=30, blank = True)
     term = models.DateField(null=True, blank = True, default = None) 
 
     def __str__(self):

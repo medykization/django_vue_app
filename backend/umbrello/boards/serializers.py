@@ -51,7 +51,7 @@ class AddListSerializer(ModelSerializer):
 class AddCardSerializer(ModelSerializer):
     class Meta:
         model = Card
-        fields = ['name','description',]
+        fields = ['name','description','term']
 
     def __init__(self, *args, **kwargs):
         self.list = kwargs.pop('list')
@@ -62,13 +62,13 @@ class AddCardSerializer(ModelSerializer):
         list_id = self.list
         order = self.order
         
-        new_card = Card(list_id=list_id, name=validated_data['name'], description = validated_data['description'], order = order)
+        new_card = Card(list_id=list_id, name=validated_data['name'], description = validated_data['description'], term = validated_data['term'], order = order)
         new_card.save()
 
 class CardSerializer(ModelSerializer):
     class Meta:
         model = Card
-        fields = ['id','name','description','order',]
+        fields = ['id','name','description','order','archived','term']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

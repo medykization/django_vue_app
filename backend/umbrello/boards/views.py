@@ -49,6 +49,8 @@ class BoardNameUpdate(GenericAPIView):
         body = request.data
         id = body['id']
         name = body['name']
+        if name == "":
+            return Response("You enter blank name")
         try:
             board = Board.objects.get(owner_id = user, id = id)
             if board.name == name:
@@ -81,6 +83,8 @@ class ListNameUpdate(GenericAPIView):
         body = request.data
         id = body['id']
         name = body['name']
+        if name == "":
+            return Response("You enter blank name")
         try:
             li = List.objects.get(id = id)
             if li.name == name:
@@ -106,7 +110,7 @@ class ListAdd(GenericAPIView):
         body = request.data
         input = {"name": body['name']}
         try:
-            board, order = self.get_queryset(user,body['board_id'])
+            board, order = self.get_queryset(user,body['id'])
         except Board.DoesNotExist:
             return Response("Board doesn't exist")
         serializer = AddListSerializer(data=input, board=board, order = order)
@@ -197,10 +201,10 @@ class CardAdd(GenericAPIView):
     def post(self, request, *args):
         user = request.user
         body = request.data
-        input = {"name": body['name'], "description": body['description']}
+        input = {"name": body['name'], "description": body['description'], "term": body['term']}
         try:
-            li, order = self.get_queryset(user,body['list_id'])
-            if li.archive == True:
+            li, order = self.get_queryset(user,body['id'])
+            if li.archived == True:
                 return Response("List is archived")
         except List.DoesNotExist:
             return Response("List doesn't exist")
@@ -218,10 +222,17 @@ class CardValuesUpdate(GenericAPIView):
         id = body['id']
         name = body['name']
         description = body['description']
+        term = body['term']
+        if name == "" and description == "" and term == "":
+            return Response("You enter blank values")
         try:
             card = Card.objects.get(id = id)
-            card.name = name
-            card.description = description
+            if name != "" and card.name != name:
+                card.name = name
+            if name != "" and card.description != description:
+                card.description = description
+            if term != "":
+                card.term = term
             card.save()
             return Response("Card values updated")
         except Board.DoesNotExist:
