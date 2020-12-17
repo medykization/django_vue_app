@@ -43,13 +43,17 @@
       <v-card>
         <v-card-text>
           <v-container>
-            <v-row>
               <v-col cols="12">
-                 <input type="text" name="Name" id="Name" v-model="name">
+                 <v-text-field
+                  label="Name of new board"
+                  type="text"
+                  name="Name"
+                  id="Name"
+                  v-model="name"
+                  required
+                ></v-text-field>
               </v-col>
-            </v-row>
           </v-container>
-          <small>*required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

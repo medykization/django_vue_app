@@ -27,7 +27,7 @@
 <script>
   import BoardCard from '../components/BoardCard.vue'
   import { getAPI } from '../api/axios-base'
-  import modal from '../components/Modal.vue'
+  import modal from '../components/BoardAddModal.vue'
   import { mapState } from 'vuex'
   export default {
     components: {
