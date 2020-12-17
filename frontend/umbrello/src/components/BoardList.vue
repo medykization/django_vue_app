@@ -33,7 +33,9 @@
                     </v-list-item-action>
                 </v-list-item-title>
               </v-list-item>
-            <v-list-item link>
+            <v-list-item
+                link
+                @click="archivizeList">
                 <v-list-item-title>
                         Archivize list
                 </v-list-item-title>
@@ -60,6 +62,7 @@
 </template>
 <script>
 import modal from '../components/ListEditModal.vue'
+import { getAPI } from '../api/axios-base'
 export default {
     components: {
       modal
@@ -70,6 +73,23 @@ export default {
         isModalVisible: true,
         variableAtParent: this.listid
       }
+    },
+    methods: {
+        archivizeList () {
+        console.log({ name: this.listid })
+        getAPI.put('/boards/archive/list',
+          { id: this.listid },
+          { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` }
+        })
+        .then(response => {
+            console.log('GetAPI successfully added the board')
+            window.location.reload()
+            // this.$store.state.APIData = response.data // store the response data in store
+          })
+          .catch(err => { // refresh token expired or some other error status
+            console.log(err)
+          })
+        }
     }
 }
 </script>

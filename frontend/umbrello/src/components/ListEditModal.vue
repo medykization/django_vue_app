@@ -8,7 +8,6 @@
     }),
     methods: {
       editListName () {
-      console.log({ name: this.name })
       getAPI.put('/boards/update/list',
         { id: this.listid,
           name: this.name },
