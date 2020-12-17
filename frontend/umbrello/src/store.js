@@ -34,7 +34,7 @@ export default new Vuex.Store({
         // run the below action to get a new access token on expiration
         refreshToken (context) {
             return new Promise((resolve, reject) => {
-                axiosBase.post('/account/token/refresh', {
+                axiosBase.post('/account/refresh', {
                         refresh: context.state.refreshToken
                     }) // send the stored refresh token to the backend API
                     .then(response => { // if API sends back new access and refresh token update the store
