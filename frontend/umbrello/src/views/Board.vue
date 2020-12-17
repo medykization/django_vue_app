@@ -4,7 +4,9 @@
     <v-container class="my-5">
       <v-layout row class="mt-5">
         <v-flex v-for="list in boardLists" :key="list.id">
-            <BoardList :listName="list.name" :listid="list.id"/>
+            <div v-if="list.archived===false">
+              <BoardList :listName="list.name" :listid="list.id" :isArchived="list.archived"/>
+            </div>
         </v-flex>
       </v-layout>
     </v-container>

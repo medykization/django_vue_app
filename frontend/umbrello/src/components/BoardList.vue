@@ -51,7 +51,7 @@
         block
         class="ma-2 pa-3"
         min-width="100">
-            <v-card-subtitle>Test karty</v-card-subtitle>
+            <v-card-subtitle>Archived: {{isArchived}}</v-card-subtitle>
         </v-card>
         <v-card-actions>
           <v-btn
@@ -70,7 +70,7 @@ export default {
     components: {
       modal
     },
-    props: ['listName', 'listid'],
+    props: ['listName', 'listid', 'isArchived'],
     data () {
       return {
         isModalVisible: true,
