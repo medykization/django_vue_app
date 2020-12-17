@@ -3,15 +3,15 @@
         elevation="5"
         block
         min-height="200"
-        min-width="100"
-        class="ma-5">
-        <v-card-title class="blue lighten-6">
-            <header>{{listName}}</header>
+        min-width="80"
+        class="ma-4">
+        <v-card-title class="grey lighten-5">
+            <h5>{{listName}}</h5>
             <v-spacer></v-spacer>
             <v-menu bottom left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                dark
+                light
                 icon
                 v-bind="attrs"
                 v-on="on"
@@ -44,20 +44,23 @@
           </v-menu>
         </v-card-title>
         <v-card
-        min-height="55"
-        elevation="2"
-        color="white"
         outlined
+        min-height="55"
+        elevation="7"
+        color="white"
         block
-        class="ma-1 pa-3"
+        class="ma-2 pa-3"
         min-width="100">
             <v-card-subtitle>Test karty</v-card-subtitle>
         </v-card>
-        <v-menu>
-            <v-card-actions>
-              <v-btn color="green lighten-1" @click="addCard">Add</v-btn>
-            </v-card-actions>
-        </v-menu>
+        <v-card-actions>
+          <v-btn
+            color="blue lighten-1"
+            text
+          >
+          + Add new card
+          </v-btn>
+        </v-card-actions>
     </v-card>
 </template>
 <script>
